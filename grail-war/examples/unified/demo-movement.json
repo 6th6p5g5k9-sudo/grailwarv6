@@ -1,0 +1,49 @@
+{
+  "schemaVersion": "1.0",
+  "id": "demo.movement",
+  "name": "演示：移动加成（明确持续1战斗轮）",
+  "category": "skill",
+  "clauses": [
+    {
+      "id": "clause.movement",
+      "window": "own_turn",
+      "trigger": {
+        "event": "manual",
+        "subject": "self"
+      },
+      "costs": [
+        {
+          "resource": "mp",
+          "amount": 20
+        }
+      ],
+      "variables": {
+        "X": "min(counter.moved_cells_this_round, 18)"
+      },
+      "limit": {
+        "scope": "battle_round",
+        "max": 1
+      },
+      "effects": [
+        {
+          "op": "modifier",
+          "stat": "damage",
+          "value": "X",
+          "stack": {
+            "key": "movement_damage",
+            "mode": "add",
+            "cap": 18
+          },
+          "timer": {
+            "scope": "battle_round",
+            "duration": 1
+          }
+        }
+      ],
+      "status": "implemented",
+      "issues": [
+        "仅用于测试的明确持续期，不代表原卡裁定"
+      ]
+    }
+  ]
+}

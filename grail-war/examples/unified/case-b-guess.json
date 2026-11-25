@@ -1,0 +1,58 @@
+{
+  "schemaVersion": "1.0",
+  "id": "case.guess",
+  "name": "案例B：对抗中猜测属性",
+  "category": "skill",
+  "clauses": [
+    {
+      "id": "clause.guess",
+      "window": "dice_revealed",
+      "trigger": {
+        "event": "dice_revealed",
+        "subject": "self"
+      },
+      "targeting": {
+        "kind": "enemy",
+        "range": 20
+      },
+      "interaction": {
+        "kind": "secret_guess",
+        "options": [
+          "higher",
+          "equal",
+          "lower"
+        ],
+        "choiceOwner": "source_player",
+        "reveal": "authorized_dice_only"
+      },
+      "effects": [
+        {
+          "op": "reveal_dice",
+          "visibility": "source_player"
+        },
+        {
+          "op": "guess_relative_attribute",
+          "verify": "server",
+          "onSuccess": [
+            {
+              "op": "override_contest_attribute",
+              "choice": "different_attribute",
+              "timer": {
+                "scope": "battle_round",
+                "duration": 3,
+                "consumeOn": "attribute_selection",
+                "uses": 1
+              },
+              "stack": "none",
+              "contestBonus": 3
+            }
+          ]
+        }
+      ],
+      "status": "requires_handler",
+      "issues": [
+        "缺少逐窗口骰子授权、秘密猜测和异属性对抗Handler；不会把文字效果冒充已生效"
+      ]
+    }
+  ]
+}

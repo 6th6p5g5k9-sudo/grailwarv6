@@ -1,0 +1,25 @@
+{
+  "source": "https://fgo.wiki/w/英灵图鉴",
+  "parameterIndex": "https://fgo.wiki/w/从者参数一览",
+  "asOf": "2026-11-23",
+  "scope": "all obtainable seven-class roster entries including swimsuits, Alters and separate spirit origins; extra classes excluded",
+  "expected": 369,
+  "read": 369,
+  "classCounts": {
+    "saber": 59,
+    "archer": 52,
+    "lancer": 56,
+    "rider": 52,
+    "caster": 53,
+    "assassin": 48,
+    "berserker": 49
+  },
+  "excluded": [
+    {
+      "number": "152",
+      "reason": "NPC/non-obtainable record without summonable servant base"
+    }
+  ],
+  "issues": [],
+  "conversion": "original deterministic tabletop conversion v0.4; matching supplied database skills reuse that database, unmatched effects are original tabletop adaptations, not FGO numeric copies"
+}

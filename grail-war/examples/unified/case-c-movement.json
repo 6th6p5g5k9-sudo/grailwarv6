@@ -1,0 +1,49 @@
+{
+  "schemaVersion": "1.0",
+  "id": "case.movement",
+  "name": "案例C：总司移动伤害加成",
+  "category": "skill",
+  "clauses": [
+    {
+      "id": "clause.movement",
+      "window": "own_turn",
+      "trigger": {
+        "event": "manual",
+        "subject": "self"
+      },
+      "costs": [
+        {
+          "resource": "mp",
+          "amount": 20
+        }
+      ],
+      "variables": {
+        "X": "min(counter.moved_cells_this_round, 18)"
+      },
+      "limit": {
+        "scope": "battle_round",
+        "max": 1
+      },
+      "effects": [
+        {
+          "op": "modifier",
+          "stat": "damage",
+          "value": "X",
+          "stack": {
+            "key": "movement_damage",
+            "mode": "add",
+            "cap": 18
+          },
+          "timer": {
+            "scope": "battle_round",
+            "duration": "DURATION_UNRESOLVED"
+          }
+        }
+      ],
+      "status": "needs_ruling",
+      "issues": [
+        "原文没有写明伤害加成持续时间；不能自动设为永久或每轮清空"
+      ]
+    }
+  ]
+}

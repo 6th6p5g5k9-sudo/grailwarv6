@@ -1,0 +1,92 @@
+{
+  "schemaVersion": "1.0",
+  "id": "case.hp_link",
+  "name": "案例A：生命损失联动",
+  "category": "skill",
+  "counters": [
+    {
+      "id": "lost_actual",
+      "event": "hp_changed",
+      "field": "hp_loss",
+      "scope": "battle",
+      "reset": "threshold"
+    }
+  ],
+  "clauses": [
+    {
+      "id": "clause.armor",
+      "window": "automatic",
+      "trigger": {
+        "event": "hp_changed",
+        "subject": "self"
+      },
+      "counter": {
+        "id": "lost_actual",
+        "threshold": "self.max_hp * 0.1",
+        "reset": "threshold"
+      },
+      "variables": {
+        "X": "event.crossings"
+      },
+      "effects": [
+        {
+          "op": "modifier",
+          "stat": "reduction",
+          "value": "X",
+          "stack": {
+            "key": "hp_armor",
+            "mode": "add"
+          },
+          "timer": {
+            "scope": "battle_round",
+            "duration": "DURATION_UNRESOLVED"
+          }
+        }
+      ],
+      "status": "needs_ruling",
+      "issues": [
+        "累计实际HP损失是否包括生命流失、HP代价及重置范围需裁定；battle为示意配置",
+        "免伤持续时间与叠加上限未明确"
+      ]
+    },
+    {
+      "id": "clause.low_hp",
+      "window": "automatic",
+      "trigger": {
+        "event": "hp_changed",
+        "subject": "self"
+      },
+      "condition": {
+        "compare": {
+          "left": "self.hp",
+          "op": "lt",
+          "right": "self.max_hp * 0.5"
+        }
+      },
+      "effects": [
+        {
+          "op": "heal",
+          "amount": 2
+        },
+        {
+          "op": "modifier",
+          "stat": "contest",
+          "value": 3,
+          "stack": {
+            "key": "low_hp_contest",
+            "mode": "none"
+          },
+          "timer": {
+            "scope": "battle_round",
+            "duration": "DURATION_UNRESOLVED"
+          }
+        }
+      ],
+      "status": "needs_ruling",
+      "issues": [
+        "2点生命回复的触发时机未明确；hp_changed只是模型示意，不自动按此执行",
+        "对抗加值的持续时间未明确"
+      ]
+    }
+  ]
+}
